@@ -1,9 +1,9 @@
 import { CompoundFile } from "./compound-file/compound-file";
-import { TEXT_DECODER } from "./compound-file/constants/text-decoder";
+import { TEXT_DECODER, TEXT_DECODER8 } from "./compound-file/constants/text-decoder";
 import type { DirectoryEntry } from "./compound-file/directory/types/directory-entry";
 import { ATTACH_PROPERTIES, PropertySource, RECIP_PROPERTIES, ROOT_PROPERTIES, type Property } from "./streams/property/properties";
 import { getPropertyStreamEntry } from "./streams/property/property-stream";
-import { PtypBinary, PtypObject, PtypString, PtypTime, type PropertyType } from "./streams/property/property-types";
+import { PtypBinary, PtypObject, PtypString, PtypString8, PtypTime, type PropertyType } from "./streams/property/property-types";
 import type { PropertyStreamEntry } from "./streams/property/types/property-stream-entry";
 import type { Attachment, Message, MessageContent, Recipient } from "./types/message";
 
@@ -91,6 +91,14 @@ function getValueFromStream(file: CompoundFile, entry: DirectoryEntry, type: Pro
       let value = "";
       file.readStream(entry, (offset, bytes) => {
         value += TEXT_DECODER.decode(new DataView(file.view.buffer, offset, bytes));
+      });
+
+      return value;
+    };
+    case PtypString8: {
+      let value = "";
+      file.readStream(entry, (offset, bytes) => {
+        value += TEXT_DECODER8.decode(new DataView(file.view.buffer, offset, bytes));
       });
 
       return value;
