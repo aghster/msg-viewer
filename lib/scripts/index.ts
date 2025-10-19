@@ -1,7 +1,7 @@
 import { messageFragment } from "../components/message";
 import { errorFragment } from "../components/error";
 import type { Message } from "./msg/types/message";
-import { parse, parseDir } from "@molotochok/msg-viewer";
+import { parse, parseDir } from "./msg/msg-parser";
 
 const $file = document.getElementById("file")!;
 

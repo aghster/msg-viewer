@@ -54,10 +54,14 @@ function getValues<T>(file: CompoundFile, dir: DirectoryEntry, properties: Prope
 function getValue<T>(file: CompoundFile, properties: Property[], dir: DirectoryEntry, entry: PropertyStreamEntry): T {
   return properties.reduce((acc, p) => {
     if (p.source == PropertySource.Stream) {
-      const streamName = `__substg1.0_${p.id.padStart(4, "0")}${p.type.id.toString(16).padStart(4, "0")}`;
-      const entry = file.directory.get(streamName, dir.childId, false);
-      if (!entry) return acc;
-      acc[p.name as keyof T] = getValueFromStream(file, entry, p.type) as T[keyof T];
+      for (const ptype of p.types) {
+        const streamName = `__substg1.0_${p.id.padStart(4, "0")}${ptype.id.toString(16).padStart(4, "0")}`;
+        const entry = file.directory.get(streamName, dir.childId, false);
+        if (entry) {
+          acc[p.name as keyof T] = getValueFromStream(file, entry, ptype) as T[keyof T];
+          break;
+        }
+      }
     } else {
       const value = getValueFromProperty(entry, p);
       if (!value) return acc;
@@ -72,7 +76,7 @@ function getValueFromProperty(entry: PropertyStreamEntry, property: Property) {
   const value = entry.data.get(property.id.toLowerCase())?.valueOrSize;
   if (!value) return "";
   
-  switch (property.type) {
+  switch (property.types[0]) {
     case PtypTime: {
       // Subtracting the number of seconds between January 1, 1601 and January 1, 1970.
       return new Date(Number(value as bigint / 10000n) - 1.16444736e13);

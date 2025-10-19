@@ -8,7 +8,7 @@ const DEST_DIR = "./build";
 try {
   await clearDestDir();
   await createDestDir();
-  await copyResourceFiles();
+  // await copyResourceFiles();
   await build();
 } catch(err) {
   console.error("Failed to build. Error: ", err);
@@ -43,10 +43,10 @@ async function build() {
     await Bun.build({
       entrypoints: ["./lib/index.html"],
       outdir: DEST_DIR,
-      minify: true,
-      plugins: [
-        html({ inline: true }),
-      ],
+      // minify: true,
+      // plugins: [
+      //   html({ inline: true }),
+      // ],
     });
     console.log("Build succeeded!\n");
   } catch(err) {
