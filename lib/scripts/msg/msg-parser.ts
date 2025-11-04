@@ -1,8 +1,7 @@
 import { CompoundFile } from "./compound-file/compound-file";
 import { TEXT_DECODER } from "./compound-file/constants/text-decoder";
 import type { DirectoryEntry } from "./compound-file/directory/types/directory-entry";
-import { CODEPAGES } from "./streams/property/codepages";
-import { ATTACH_PROPERTIES, CODEPAGE_PROPERTY, PropertySource, RECIP_PROPERTIES, ROOT_PROPERTIES, type Property } from "./streams/property/properties";
+import { ATTACH_PROPERTIES, CODEPAGE_PROPERTY, CODEPAGES, PropertySource, RECIP_PROPERTIES, ROOT_PROPERTIES, type Property } from "./streams/property/properties";
 import { getPropertyStreamEntry } from "./streams/property/property-stream";
 import { PtypBinary, PtypObject, PtypString, PtypString8, PtypTime, type PropertyType } from "./streams/property/property-types";
 import type { PropertyStreamEntry } from "./streams/property/types/property-stream-entry";
@@ -102,7 +101,7 @@ function getValueFromStream(file: CompoundFile, entry: DirectoryEntry, type: Pro
       return value;
     };
     case PtypString8: {
-      const decoder = new TextDecoder(CODEPAGES[codepage || 65001]);
+      const decoder = new TextDecoder(CODEPAGES.get(codepage || 65001));
       let value = "";
       file.readStream(entry, (offset, bytes) => {
         value += decoder.decode(new DataView(file.view.buffer, offset, bytes));
