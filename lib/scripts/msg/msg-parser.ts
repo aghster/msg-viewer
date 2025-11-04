@@ -90,7 +90,7 @@ function getValueFromProperty(entry: PropertyStreamEntry, property: Property) {
   }  
 }
 
-function getValueFromStream(file: CompoundFile, entry: DirectoryEntry, type: PropertyType, codepage?: number): string | DataView | null {
+function getValueFromStream(file: CompoundFile, entry: DirectoryEntry, type: PropertyType, codepage?: number): string | DataView | DirectoryEntry | null {
   switch (type) {
     case PtypString: {
       let value = "";
