@@ -52,8 +52,8 @@ function getValues<T>(file: CompoundFile, dir: DirectoryEntry, properties: Prope
   return list;
 }
 
-function getCodepage(file: CompoundFile, dir: DirectoryEntry, entry: PropertyStreamEntry) {
-  return getValue<{ codepage: number }>(file, [CODEPAGE_PROPERTY], dir, entry).codepage;
+function getCodepage(file: CompoundFile, dir: DirectoryEntry, entry: PropertyStreamEntry): number | undefined {
+  return getValue<{ codepage: number | undefined }>(file, [CODEPAGE_PROPERTY], dir, entry).codepage;
 }
 
 function getValue<T>(file: CompoundFile, properties: Property[], dir: DirectoryEntry, entry: PropertyStreamEntry, codepage?: number): T {
