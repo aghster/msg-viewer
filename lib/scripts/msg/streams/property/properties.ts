@@ -1,9 +1,11 @@
-import { PtypBinary, PtypObject, PtypString, PtypString8,PtypTime, type PropertyType } from "./property-types";
+import { PtypBinary, PtypObject, PtypString, PtypString8, PtypTime, PtypInteger32, type PropertyType } from "./property-types";
 
 export const enum PropertySource { 
   Stream, // Property can be found in a dedicated stream
   Property // Property is located in property stream
 }
+
+export const CODEPAGE_PROPERTY: Property = { id: "3FDE", name:"codepage", types: [PtypInteger32], source: PropertySource.Property };
 
 export const ROOT_PROPERTIES: Property[] = [
   { id: "0E06", name:"date", types: [PtypTime], source: PropertySource.Property },
